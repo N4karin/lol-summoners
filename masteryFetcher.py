@@ -203,7 +203,7 @@ if summonerInfo.status_code == 200:
     else:
         print("Error " + str(mostPlayedChamps.status_code))
 else:
-    print("Error " + str(summonerInfo.status_code))
+    print("Error " + str(summonerInfo.status_code) + "\nCheck whether API key is correct")
 
 
 
