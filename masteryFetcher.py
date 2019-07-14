@@ -170,7 +170,8 @@ serverList = {
         "las": "la2",
         "ru": "ru",
         "russia": "ru",
-        "tr": "tr",
+        "turkey": "tr1",
+        "tr": "tr1",
         "pbr": "pbe1",
 }
 
@@ -191,7 +192,8 @@ if summonerInfo.status_code == 200:
     accountJSON = json.loads(summonerInfo.text)
     accountId = accountJSON["id"]
 
-    mostPlayedChamps = requests.get("https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + accountId + "?api_key=" + api)
+    print("Fetching Champion list...\n")
+    mostPlayedChamps = requests.get("https://" + server + ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + accountId + "?api_key=" + api)
     if mostPlayedChamps.status_code == 200:
         champList = json.loads(mostPlayedChamps.text)
         for i in range (10):
@@ -203,7 +205,7 @@ if summonerInfo.status_code == 200:
     else:
         print("Error " + str(mostPlayedChamps.status_code))
 else:
-    print("Error " + str(summonerInfo.status_code) + "\nCheck whether API key is correct")
+    print("Error " + str(summonerInfo.status_code) + "\nCheck whether API key and summoner name is correct")
 
 
 
