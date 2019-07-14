@@ -172,40 +172,40 @@ serverList = {
         "russia": "ru",
         "turkey": "tr1",
         "tr": "tr1",
-        "pbr": "pbe1",
+        "pbe": "pbe1",
 }
 
-api = "" #Fill this in
-summoner = input('Please enter your summoner name\n')
+api = "" # Fill this in
+summoner = input('Please enter a summoner name\n')
 
-serverInput = input('Please enter server\n')
+serverInput = input('Please enter the region of the summoner name\n')
 server = serverList.get(serverInput.lower())
 
 if server is None:
         print("Server not found, please inspect input")
         exit()
 
-summonerInfo = requests.get("https://" + server + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summoner + "?api_key=" + api)
+summonerInfo = requests.get("https://" + server + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summoner +
+                            "?api_key=" + api)
 
 if summonerInfo.status_code == 200:
-    print("Summoner '" + summoner + "' found on " + serverInput)
+    print('Summoner found')
     accountJSON = json.loads(summonerInfo.text)
     accountId = accountJSON["id"]
-
     print("Fetching Champion list...\n")
-    mostPlayedChamps = requests.get("https://" + server + ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + accountId + "?api_key=" + api)
+    mostPlayedChamps = requests.get("https://" + server +
+                                    ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" +
+                                    accountId + "?api_key=" + api)
     if mostPlayedChamps.status_code == 200:
         champList = json.loads(mostPlayedChamps.text)
         for i in range (10):
                 try:
-                        print('{:<13s}{:>7s}'.format(all_champion_id.get(champList[i]["championId"]), f'{champList[i]["championPoints"]:,}'))
+                        print('{:<13s}{:>7s}'.format(all_champion_id.get(champList[i]["championId"]),
+                                                     f'{champList[i]["championPoints"]:,}'))
                 except:
                         print("No more champions found")
                         break
     else:
         print("Error " + str(mostPlayedChamps.status_code))
 else:
-    print("Error " + str(summonerInfo.status_code) + "\nCheck whether API key and summoner name is correct")
-
-
-
+    print("Error " + str(summonerInfo.status_code) + "\nPlease check API key, summoner name and server")
